@@ -42,9 +42,9 @@
 void BOARD_Init()
 {
     //sets the system clock to the optimal frequency given the system clock
-    //SYSTEMConfig(SYSTEM_CLOCK, SYS_CFG_WAIT_STATES | SYS_CFG_PCACHE);
+    SYSTEMConfig(SYSTEM_CLOCK, SYS_CFG_WAIT_STATES | SYS_CFG_PCACHE);
     //sets the divisor to 2 to ensure 40Mhz peripheral bus
-    //OSCSetPBDIV(OSC_PB_DIV_2);
+    OSCSetPBDIV(OSC_PB_DIV_2);
 
 
     //disables all A/D pins for a clean start
