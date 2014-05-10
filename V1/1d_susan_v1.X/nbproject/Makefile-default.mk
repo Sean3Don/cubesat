@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/main.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/setters.c "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/RC_Servo.c" "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/BOARD.c" "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/serial.c" "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/AD.c" C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.c
+SOURCEFILES_QUOTED_IF_SPACED=C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/main.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/setters.c "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/RC_Servo.c" "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/BOARD.c" "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/serial.c" "C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/AD.c" C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1233947133/main.o ${OBJECTDIR}/_ext/1233947133/setters.o ${OBJECTDIR}/_ext/1843181768/RC_Servo.o ${OBJECTDIR}/_ext/1843181768/BOARD.o ${OBJECTDIR}/_ext/1843181768/serial.o ${OBJECTDIR}/_ext/1843181768/AD.o ${OBJECTDIR}/_ext/1233947133/getters.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1233947133/main.o.d ${OBJECTDIR}/_ext/1233947133/setters.o.d ${OBJECTDIR}/_ext/1843181768/RC_Servo.o.d ${OBJECTDIR}/_ext/1843181768/BOARD.o.d ${OBJECTDIR}/_ext/1843181768/serial.o.d ${OBJECTDIR}/_ext/1843181768/AD.o.d ${OBJECTDIR}/_ext/1233947133/getters.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1233947133/main.o ${OBJECTDIR}/_ext/1233947133/setters.o ${OBJECTDIR}/_ext/1843181768/RC_Servo.o ${OBJECTDIR}/_ext/1843181768/BOARD.o ${OBJECTDIR}/_ext/1843181768/serial.o ${OBJECTDIR}/_ext/1843181768/AD.o ${OBJECTDIR}/_ext/1233947133/getters.o ${OBJECTDIR}/_ext/1233947133/runner.o ${OBJECTDIR}/_ext/1233947133/Control.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1233947133/main.o.d ${OBJECTDIR}/_ext/1233947133/setters.o.d ${OBJECTDIR}/_ext/1843181768/RC_Servo.o.d ${OBJECTDIR}/_ext/1843181768/BOARD.o.d ${OBJECTDIR}/_ext/1843181768/serial.o.d ${OBJECTDIR}/_ext/1843181768/AD.o.d ${OBJECTDIR}/_ext/1233947133/getters.o.d ${OBJECTDIR}/_ext/1233947133/runner.o.d ${OBJECTDIR}/_ext/1233947133/Control.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1233947133/main.o ${OBJECTDIR}/_ext/1233947133/setters.o ${OBJECTDIR}/_ext/1843181768/RC_Servo.o ${OBJECTDIR}/_ext/1843181768/BOARD.o ${OBJECTDIR}/_ext/1843181768/serial.o ${OBJECTDIR}/_ext/1843181768/AD.o ${OBJECTDIR}/_ext/1233947133/getters.o
+OBJECTFILES=${OBJECTDIR}/_ext/1233947133/main.o ${OBJECTDIR}/_ext/1233947133/setters.o ${OBJECTDIR}/_ext/1843181768/RC_Servo.o ${OBJECTDIR}/_ext/1843181768/BOARD.o ${OBJECTDIR}/_ext/1843181768/serial.o ${OBJECTDIR}/_ext/1843181768/AD.o ${OBJECTDIR}/_ext/1233947133/getters.o ${OBJECTDIR}/_ext/1233947133/runner.o ${OBJECTDIR}/_ext/1233947133/Control.o
 
 # Source Files
-SOURCEFILES=C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/main.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/setters.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/RC_Servo.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/BOARD.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/serial.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/AD.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.c
+SOURCEFILES=C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/main.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/setters.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/RC_Servo.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/BOARD.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/serial.c C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/AD.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c
 
 
 CFLAGS=
@@ -133,6 +133,18 @@ ${OBJECTDIR}/_ext/1233947133/getters.o: C:/Users/Dmitriy/Documents/GitHub/cubesa
 	@${RM} ${OBJECTDIR}/_ext/1233947133/getters.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1233947133/getters.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"../../cmpe118 libraries/include" -MMD -MF "${OBJECTDIR}/_ext/1233947133/getters.o.d" -o ${OBJECTDIR}/_ext/1233947133/getters.o C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.c   
 	
+${OBJECTDIR}/_ext/1233947133/runner.o: C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1233947133 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/runner.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/runner.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1233947133/runner.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"../../cmpe118 libraries/include" -MMD -MF "${OBJECTDIR}/_ext/1233947133/runner.o.d" -o ${OBJECTDIR}/_ext/1233947133/runner.o C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c   
+	
+${OBJECTDIR}/_ext/1233947133/Control.o: C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1233947133 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/Control.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/Control.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1233947133/Control.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"../../cmpe118 libraries/include" -MMD -MF "${OBJECTDIR}/_ext/1233947133/Control.o.d" -o ${OBJECTDIR}/_ext/1233947133/Control.o C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c   
+	
 else
 ${OBJECTDIR}/_ext/1233947133/main.o: C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1233947133 
@@ -175,6 +187,18 @@ ${OBJECTDIR}/_ext/1233947133/getters.o: C:/Users/Dmitriy/Documents/GitHub/cubesa
 	@${RM} ${OBJECTDIR}/_ext/1233947133/getters.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1233947133/getters.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1233947133/getters.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"../../cmpe118 libraries/include" -MMD -MF "${OBJECTDIR}/_ext/1233947133/getters.o.d" -o ${OBJECTDIR}/_ext/1233947133/getters.o C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.c   
+	
+${OBJECTDIR}/_ext/1233947133/runner.o: C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1233947133 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/runner.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/runner.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1233947133/runner.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"../../cmpe118 libraries/include" -MMD -MF "${OBJECTDIR}/_ext/1233947133/runner.o.d" -o ${OBJECTDIR}/_ext/1233947133/runner.o C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c   
+	
+${OBJECTDIR}/_ext/1233947133/Control.o: C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1233947133 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/Control.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1233947133/Control.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1233947133/Control.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"../../cmpe118 libraries/include" -MMD -MF "${OBJECTDIR}/_ext/1233947133/Control.o.d" -o ${OBJECTDIR}/_ext/1233947133/Control.o C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c   
 	
 endif
 

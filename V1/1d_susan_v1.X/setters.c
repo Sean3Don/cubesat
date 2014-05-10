@@ -15,7 +15,9 @@
 #include "BOARD.h"
 
 
-
+void init_all_setters(void){
+    init_ESC_pulse();
+}
 
 void init_ESC_pulse(void){
 // currently using RCpin x4 as defined by RC_Servo.h

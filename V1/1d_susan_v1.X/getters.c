@@ -27,6 +27,10 @@ void wait(int cycles) {
     }
 }
 
+void init_all_getters(void){
+    init_encoder();
+}
+
 void init_encoder(void) {
     // this part sets up the SPI interface\
     // channel 2 is the one for J8 on the UNO32

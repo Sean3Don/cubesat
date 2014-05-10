@@ -10,6 +10,8 @@
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/include/serial.h</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/setters.h</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.h</itemPath>
+      <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.h</itemPath>
+      <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -25,6 +27,8 @@
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/serial.c</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/cmpe118 libraries/src/AD.c</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/getters.c</itemPath>
+      <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c</itemPath>
+      <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

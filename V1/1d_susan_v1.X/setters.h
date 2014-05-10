@@ -19,7 +19,7 @@
 //#define ESC_TEST
 
 
-#define ESC_PIN RC_PORTX04
+#define ESC_PIN RC_PORTX04 // this pin corresponds to RB0 or J5 15 ont the UNO
 
 #ifndef SETTERS_H
 #define	SETTERS_H
