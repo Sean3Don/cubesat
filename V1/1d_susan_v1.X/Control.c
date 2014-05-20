@@ -8,8 +8,12 @@
  *
  * Created on May 9, 2014, 4:30 PM
  */
-
+#include "xc.h"
 #include "Control.h"
+#include "serial.h"
+#include "board.h"
+
+#define MAX_ENC_READING 3300
 
 
 void init_control(void){
@@ -17,7 +21,21 @@ void init_control(void){
 }
 
  void Control(struct inputs *in, struct outputs *out){
-    int angle = in->enc_angle;
+     static int i = 0;
 
-    out->pulse_width = (((unsigned)angle)*1000/16383) + 1000;
+     if(i<20){
+         out->pulse_width=2000;
+         i++;
+     }
+     if(i>=20){
+         out->pulse_width=1000;
+         i++;
+     }
+     if(i==40){
+         i=0;
+     }
+
+//    int angle = in->enc_angle;
+//    printf("%d \n", angle);
+//    out->pulse_width = (((unsigned)angle)*1000/MAX_ENC_READING) + 1000;
 }

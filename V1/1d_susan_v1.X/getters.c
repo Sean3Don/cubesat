@@ -14,6 +14,8 @@
 #include "BOARD.h"
 #include "getters.h"
 #include <peripheral/spi.h>
+#include <peripheral/incap.h>
+#include <peripheral/timer.h>
 
 #define SPISS 0x10000000 // enable proper operation of the SS bit for reading the encoder
 #define REQUEST_ANGLE 0XFFFF
@@ -30,7 +32,7 @@ void wait(int cycles) {
 void init_all_getters(void){
     init_encoder();
 }
-
+#ifdef SPI_ENC
 void init_encoder(void) {
     // this part sets up the SPI interface\
     // channel 2 is the one for J8 on the UNO32
@@ -67,6 +69,74 @@ int get_encoder_angle(void) {
 
     return angle;
 }
+#endif
+
+#ifndef SPI_ENC
+
+void init_encoder(void) {
+     //Clear interrupt flag
+    mIC1ClearIntFlag();
+
+    // Setup Timer 3 with long period, no clock scaling
+    OpenTimer3(T3_ON | T3_PS_1_4, 0xffff);
+
+    // Enable Input Capture Module 1
+    // - Capture Every edge
+    // - Enable capture interrupts
+    // - Use Timer 3 source
+    // - Capture rising edge first
+    OpenCapture1( IC_EVERY_EDGE | IC_INT_1CAPTURE | IC_TIMER3_SRC | IC_FEDGE_RISE | IC_ON );
+
+     // Wait for Capture events
+    while( !mIC1CaptureReady() ) ;
+}
+
+
+
+ int get_encoder_angle(void) {
+    // rising and fallind edge times
+    int up1,up2,d1;
+
+    // the angle expressed by the pwm
+    int angle;
+
+    //reset timer
+    WriteTimer3(0);
+    //printf("timer 3: %d\n",ReadTimer3());
+    //turn on input capture
+    OpenCapture1( IC_EVERY_EDGE | IC_INT_1CAPTURE | IC_TIMER3_SRC | IC_FEDGE_RISE |IC_CAP_16BIT| IC_ON );
+
+    //wait for first data to be ready
+    while( !mIC1CaptureReady() ) ;
+    //first rising edge
+    up1=mIC1ReadCapture();
+
+    //wait for falling edge
+    while( !mIC1CaptureReady() ) ;
+    d1=mIC1ReadCapture();
+
+    // wait for next rising edge
+    while( !mIC1CaptureReady() ) ;
+    up2=mIC1ReadCapture();
+
+    //turn off input capture
+    OpenCapture1( IC_EVERY_EDGE | IC_INT_1CAPTURE | IC_TIMER3_SRC | IC_FEDGE_RISE | IC_CAP_16BIT | IC_OFF );
+    //printf("timer 3: %d\n",ReadTimer3());
+
+    // The values come from a 16 bit timer therefore the lower 15 bits (since it's signed)
+    // are just noise. Shift them out for the bottom, leave them in for the top of the division.
+    int temp=up2-up1;
+    temp=temp >> 15;
+
+    angle=(d1-up1)/temp;
+    printf("period %d\n",up2-up1);
+    printf("up1 %d\n d1 %d\n up2 %d\n",up1,d1,up2);
+
+    return angle;
+}
+
+
+#endif
 
 
 #ifdef TEST_ENCODER
@@ -89,7 +159,7 @@ int angle = 0;
 
 void __ISR(_TIMER_2_VECTOR, ipl3) Timer2Handler(void) {
     T2CONSET = 0x8000;
-    //printf("timer overrun \n");
+    printf("timer overrun \n");
 
 
     angle = get_encoder_angle();
@@ -102,6 +172,10 @@ void __ISR(_TIMER_2_VECTOR, ipl3) Timer2Handler(void) {
 
 }
 
+
+
+
+
 void main() {
     BOARD_Init();
     timer_init();
@@ -109,3 +183,4 @@ void main() {
 }
 
 #endif
+
