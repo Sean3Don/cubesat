@@ -14,28 +14,17 @@
 #include "board.h"
 
 #define MAX_ENC_READING 3300
-
+#define PI 3.14159
 
 void init_control(void){
 
 }
 
  void Control(struct inputs *in, struct outputs *out){
-     static int i = 0;
+ 
+    float angle = in->AHRS_angle;
+    printf("%f \n", angle);
 
-     if(i<20){
-         out->pulse_width=2000;
-         i++;
-     }
-     if(i>=20){
-         out->pulse_width=1000;
-         i++;
-     }
-     if(i==40){
-         i=0;
-     }
-
-//    int angle = in->enc_angle;
-//    printf("%d \n", angle);
-//    out->pulse_width = (((unsigned)angle)*1000/MAX_ENC_READING) + 1000;
+    float con=(angle/PI*500)+1000;
+    out->pulse_width =(unsigned int)con;
 }

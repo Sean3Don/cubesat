@@ -7,7 +7,7 @@
  * Created on May 15, 2014, 2:38 PM
  */
 // define AHRS_TEST to run test harness
-#define AHRS_TEST
+//#define AHRS_TEST
 
 
 #ifndef AHRS_H
