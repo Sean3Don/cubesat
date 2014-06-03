@@ -47,7 +47,8 @@ void __ISR(_TIMER_1_VECTOR, ipl1) Timer1Handler(void) {
 
     struct inputs in;
     struct outputs out;
-    in.enc_angle = get_encoder_angle();
+    //in.enc_angle = get_encoder_angle();
+    in.AHRS_angle = get_AHRS_angle();
     Control(&in,&out);
     set_ESC_pulse(out.pulse_width);
 

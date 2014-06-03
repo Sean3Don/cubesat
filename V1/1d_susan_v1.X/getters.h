@@ -9,15 +9,21 @@
 
 //define this if you want to test the encoder
 // the test should spit out encoder values indefinitely
-//#define TEST_ENCODER
+#define TEST_ENCODER
 
 // define this if you want the encoder to be read through SPI. Otherwise it uses
 // pwm and input capture.
 //#define SPI_ENC
 
+// define this if you want to test the AHRS
+//#define AHRS_TEST
+
 
 #ifndef GETTERS_H
 #define	GETTERS_H
+
+#include "AHRS.h"
+
 
 void init_all_getters(void);
 /*
@@ -34,7 +40,7 @@ void init_encoder(void);
  * prepares for aquisition of angle data from the encoder.
  */
 
-int get_encoder_angle(void);
+float get_encoder_angle(void);
 /*
  * Function: get_encoder_angle(void)
  *
@@ -42,6 +48,21 @@ int get_encoder_angle(void);
  * from the encoder
  */
 
+void init_AHRS(void);
+/*
+ * Function: init_AHRS
+ *
+ * Initializes the AHRS and tares it at the current position
+ */
+
+float get_AHRS_angle(void);
+/*
+ * Function: get_AHRS_ange
+ *
+ * obtains and returns the yaw angle from the AHRS
+ *
+ *
+ */
 
 
 #endif	/* GETTERS_H */

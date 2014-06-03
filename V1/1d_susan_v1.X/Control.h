@@ -13,7 +13,8 @@
 #define	CONTROL_H
 
 struct inputs {
-    int enc_angle;
+    float enc_angle;
+    float AHRS_angle;
 };
 
 

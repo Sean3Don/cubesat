@@ -12,6 +12,7 @@
 #include "serial.h"
 #include "stdio.h"
 #include "BOARD.h"
+#include "getters.h"
 #include "AHRS.h"
 #include <peripheral/spi.h>
 
@@ -38,7 +39,7 @@ unsigned int txrx_byte(unsigned int byte){
     SS=0;
     SpiChnPutC(2,byte);
     read=SpiChnGetC(2);
-    printf("r %x\n",read);
+    //printf("r %x\n",read);
     SS=1;
     blck_wait(WAIT_TIME);
     return read;
@@ -59,9 +60,9 @@ void unpack_data(float* floats, uint32_t* bytes, int float_array_size){
     for(i;i<float_array_size;i++){
         j=i*4;
         tmp.u32 = bytes[j+3] | (bytes[j+2] << 8) | (bytes[j+1] << 16) | (bytes[j] << 24);
-        printf("%x\n",tmp.u32);
+        //printf("%x\n",tmp.u32);
         floats[i]=tmp.r32;
-        printf("%f\n",floats[i]);
+        //printf("%f\n",floats[i]);
     }
 }
 
