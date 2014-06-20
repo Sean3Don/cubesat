@@ -99,7 +99,7 @@ void AHRS_init(void) {
     // new data is placed on line at falling edge
     unsigned int config = SPI_CON_MODE8 | SPI_CON_MSTEN|SPI_CON_CKE ;
     // the last number is the clock divider
-    SpiChnOpen(SPI_CHANNEL2, config, 1024);
+    SpiChnOpen(SPI_CHANNEL2, config, 4);
 
 
     // this is the slave select pin. it's controlled in software. you need to bring

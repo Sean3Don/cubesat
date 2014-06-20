@@ -21,6 +21,9 @@
 #define SPISS 0x10000000 // enable proper operation of the SS bit for reading the encoder
 #define REQUEST_ANGLE 0XFFFF
 #define PI 3.14159
+#define TWOPI 6.28319
+
+#define READ_IC1 PORTDbits.RD8
 
 #define WAIT_TIME 1000
 
@@ -90,6 +93,9 @@ float initial_angle = 0;
 int init_flag = 0;
 
 void init_encoder(void) {
+    // set up second IC1 pin as input
+    TRISDbits.TRISD8 = 1;
+
     //Clear interrupt flag
     mIC1ClearIntFlag();
 
@@ -101,32 +107,42 @@ void init_encoder(void) {
     // - Enable capture interrupts
     // - Use Timer 3 source
     // - Capture rising edge first
-    OpenCapture1(IC_EVERY_EDGE | IC_INT_1CAPTURE | IC_TIMER3_SRC | IC_FEDGE_RISE | IC_ON);
-
-    // Wait for Capture events
-    while (!mIC1CaptureReady());
 
     // get the initial angle against which to do the tare
-    get_encoder_angle();
     initial_angle = get_encoder_angle();
 }
 
 float format(float raw) {
-    raw = raw - initial_angle;
-    if (raw >= 0) {
-        if (raw > PI) {
-            raw = raw-2*PI;
-            return raw;
+    float init = initial_angle;
+    float diff;
+    if (init <= PI) {
+        diff = raw - init;
+        if (diff >= 0) {
+            if (diff <= PI) {
+                return diff;
+            } else {
+                return diff-TWOPI;
+            }
+        } else {
+            return diff;
         }
-        return raw;
     }else{
-        if(raw <=-PI){
-            raw=raw+2*PI;
-            return raw;
+        diff=raw-init;
+        if(diff>0){
+            return diff;
+        }else{
+            if(diff<-PI){
+                return diff+TWOPI;
+            }else{
+                return diff;
+            }
         }
-        return raw;
     }
 }
+            
+            
+
+
 
 float get_encoder_angle(void) {
     // rising and fallind edge times
@@ -139,12 +155,20 @@ float get_encoder_angle(void) {
     WriteTimer3(0);
     //printf("timer 3: %d\n",ReadTimer3());
     //turn on input capture
+    //printf("IC1 %d \n", READ_IC1);
+    while (READ_IC1);
     OpenCapture1(IC_EVERY_EDGE | IC_INT_1CAPTURE | IC_TIMER3_SRC | IC_FEDGE_RISE | IC_CAP_16BIT | IC_ON);
+
+    //wait for the IC pin to go low so that the first edge we capture is rising
+
 
     //wait for first data to be ready
     while (!mIC1CaptureReady());
     //first rising edge
     up1 = mIC1ReadCapture();
+
+
+
 
     //wait for falling edge
     while (!mIC1CaptureReady());
@@ -155,7 +179,8 @@ float get_encoder_angle(void) {
     up2 = mIC1ReadCapture();
 
     //turn off input capture
-    OpenCapture1(IC_EVERY_EDGE | IC_INT_1CAPTURE | IC_TIMER3_SRC | IC_FEDGE_RISE | IC_CAP_16BIT | IC_OFF);
+    CloseCapture1();
+    //IC1CONCLR = _IC1CON_ON_MASK;
     //printf("timer 3: %d\n",ReadTimer3());
 
     // The values come from a 16 bit timer therefore the lower 15 bits (since it's signed)
@@ -164,12 +189,13 @@ float get_encoder_angle(void) {
     temp = temp >> 15;
 
     angle = (d1 - up1) / temp;
-    printf("encoder raw %d\n",angle);
+    //printf("encoder raw %d\n", angle);
     // the angle in radians
-    float rads = (float) angle / 32767 * 2*PI;
+    float rads = ((float) angle) / 32767 * 2 * PI;
 
     if (init_flag != 0) {
-        //rads = format(rads);
+        rads = format(rads);
+        rads=0-rads;
         return rads;
     }
 
@@ -195,7 +221,7 @@ void timer_init(void) {
     IFS0CLR = 0x00000100;
     IEC0SET = 0x00000100;
     //turn on timer and set prescaler
-    T2CONSET = 0x8070;
+    T2CONSET = 0x8050;
 }
 
 float angle = 0;
@@ -203,12 +229,12 @@ float ahrs_angle = 0;
 
 void __ISR(_TIMER_2_VECTOR, ipl3) Timer2Handler(void) {
     T2CONSET = 0x8000;
-    printf("timer overrun \n");
-
+    //printf("timer overrun \n");
+    static float time=0;
     ahrs_angle = get_AHRS_angle();
     angle = get_encoder_angle();
-    printf("encoder angle: %f\n AHRS angle: %f\n ", angle, ahrs_angle);
-
+    printf("%f, %f, %f\n ", angle, ahrs_angle,time);
+    time++;
 
 
     // clear timer interrupt
@@ -220,6 +246,7 @@ void main() {
     BOARD_Init();
 
     init_encoder();
+    printf("Encoder, AHRS, Time\n");
     init_AHRS();
     timer_init();
 
