@@ -21,6 +21,8 @@
  * 
  */
 
+#define PI 3.15
+
 // what this function really does is initialize the timer interrupt to the correct frequency
 
 void run(int samp_freq) {
@@ -36,9 +38,25 @@ void run(int samp_freq) {
 
 }
 
+//this function is called every time the control loop is run
+// if it is passed a 1, it means that the control has stabilized,
+// and it puts out the next desired point
+
+//currently it just flops between pi and 0
+float currWP = PI;
+float waypoints (int atWP){
+    if(atWP){
+        if (currWP < 1){
+            currWP = PI;
+        }else{
+            currWP = 0;
+        }
+    }
+    return currWP;
+}
 
 // this ISR is the part that really runs the show
-
+int waypoint_reached = 0;
 void __ISR(_TIMER_1_VECTOR, ipl1) Timer1Handler(void) {
     // clear the interrupt flag
     mT1ClearIntFlag();
@@ -49,7 +67,8 @@ void __ISR(_TIMER_1_VECTOR, ipl1) Timer1Handler(void) {
     struct outputs out;
     //in.enc_angle = get_encoder_angle();
     in.AHRS_angle = get_AHRS_angle();
-    Control(&in,&out);
+    float wp = waypoints(waypoint_reached);
+    waypoint_reached = Control(&in,&out,wp);
     set_ESC_pulse(out.pulse_width);
 
     // clear the interrupt flag

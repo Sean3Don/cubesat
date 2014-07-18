@@ -36,7 +36,7 @@ void wait(int cycles) {
 }
 
 void init_all_getters(void) {
-    init_encoder();
+    //init_encoder();
     init_AHRS();
 }
 

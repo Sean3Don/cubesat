@@ -31,7 +31,7 @@ void init_control(void);
 
  */
 
- void Control(struct inputs *in, struct outputs *out);
+ int Control(struct inputs *in, struct outputs *out,float command);
 /* Function: control
  *
  * here is where you implement the controller. The inputs structs has all the

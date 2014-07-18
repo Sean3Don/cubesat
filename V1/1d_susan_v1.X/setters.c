@@ -26,11 +26,19 @@ void init_ESC_pulse(void){
 
     RC_Init();
     RC_AddPins(ESC_PIN);
+    int i = 0;
+    for(i; i<1000000 ; i++ );
     RC_SetPulseTime(ESC_PIN,1500); //set intial speed to 0 rpm
-
+    
 }
 
 void set_ESC_pulse(unsigned int pulse_width){
+    if (pulse_width>2000)
+        pulse_width=2000;
+
+    if(pulse_width<1000)
+        pulse_width=1000;
+
    RC_SetPulseTime(ESC_PIN,pulse_width);
 }
 

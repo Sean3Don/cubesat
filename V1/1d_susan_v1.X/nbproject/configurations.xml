@@ -31,6 +31,7 @@
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.c</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/AHRS.c</itemPath>
+      <itemPath>printer.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -100,6 +101,7 @@
         <property key="use-indirect-calls" value="false"/>
       </C32>
       <C32-AR>
+        <property key="additional-options-chop-files" value="false"/>
       </C32-AR>
       <C32-AS>
       </C32-AS>
