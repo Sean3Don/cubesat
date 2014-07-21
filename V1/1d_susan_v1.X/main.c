@@ -23,7 +23,6 @@ int main(void) {
     BOARD_Init();
     init_all_getters();
     init_all_setters();
-    init_control();
     
     run(10);
     
