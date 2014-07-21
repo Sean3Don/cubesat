@@ -1,3 +1,90 @@
+//
+//#define TARE 0x60
+//#define TARED_EULER_ANGLES 0x01
+//
+//
+//
+//#include "xc.h"
+//#include "serial.h"
+//#include "stdio.h"
+//#include "BOARD.h"
+//#include "getters.h"
+//#include "AHRS.h"
+//#include <peripheral/spi.h>
+//#include "cubesat_SPI_bus_library.h"
+//
+//
+//// union used for data unpacking
+//typedef union {
+//	float r32;
+//	uint32_t u32;
+//} conv_union;
+//
+//
+//
+///*
+// * unpack_data is passed a pointer to an empty array of floats and a full array
+// * of uint32_t that contain the bytes of  data received from the AHRS. The compiler
+// * is little endian and the data is received big endian.
+//
+// */
+//void unpack_data(float* floats, uint32_t* bytes, int float_array_size){
+//
+//    int i = 0;
+//    int j;
+//    conv_union tmp;
+//
+//    for(i;i<float_array_size;i++){
+//        j=i*4;
+//        tmp.u32 = bytes[j+3] | (bytes[j+2] << 8) | (bytes[j+1] << 16) | (bytes[j] << 24);
+//        //printf("%x\n",tmp.u32);
+//        floats[i]=tmp.r32;
+//        //printf("%f\n",floats[i]);
+//    }
+//}
+//
+///* Send command is passed a command to send. It sends it and then waits for the
+// * AHRS to send back a 1, meaning that the next read byte read will either be a
+// * zero (if the command was not one that receives data in the anser), or the beginning
+// * of the data sent back by the AHRS.
+// *
+//
+// */
+//
+//
+//void AHRS_init(void) {
+//    //wait for the AHRS to wake up
+//    int i = 0;
+//    while(i<10000000){
+//        i++;
+//    }
+//
+//    //the following does the tare (at the current position)
+//    send_AHRS_command(TARE);
+//    printf("TARED");
+//}
+//
+//float AHRS_get_yaw(void){
+//
+//
+//    //create and receive array. 12 unsigned ints, but only the lowest byte
+//    //is used to create 3 floats.
+//    uint32_t *receive_array;
+//
+//    receive_array = get_AHRS_data(TARED_EULER_ANGLES,12);
+//
+//
+//    //read off the 12 bytes that come back as 3 floats
+//    float  angles[3];
+//
+//    unpack_data(angles,receive_array,3);
+//    // now angles contains 3 euler angles, pitch, yaw, roll in that order
+//
+//    return angles[1];
+//}
+
+// The following is a copy of working AHRS code from before some of it was moved to the cubesat_SPI_bus_library
+
 
 #define WAIT_TIME 1000
 #define SS PORTGbits.RG9
@@ -48,7 +135,7 @@ unsigned int txrx_byte(unsigned int byte){
 /*
  * unpack_data is passed a pointer to an empty array of floats and a full array
  * of uint32_t that contain the bytes of  data received from the AHRS. The compiler
- * is little endian and the data is received big endian. 
+ * is little endian and the data is received big endian.
 
  */
 void unpack_data(float* floats, uint32_t* bytes, int float_array_size){
@@ -74,7 +161,7 @@ void unpack_data(float* floats, uint32_t* bytes, int float_array_size){
 
  */
 void send_command(unsigned int command){
-    
+
     //initiate coms
     txrx_byte(START_TX);
 
@@ -118,7 +205,7 @@ void AHRS_init(void) {
 float AHRS_get_yaw(void){
     //ask for some euler angles
     send_command(TARED_EULER_ANGLES);
-    
+
     //create and receive array. 12 unsigned ints, but only the lowest byte
     //is used to create 3 floats.
     uint32_t receive_array[12];
@@ -137,10 +224,11 @@ float AHRS_get_yaw(void){
     // now angles contains 3 euler angles, pitch, yaw, roll in that order
 
     //close the com channel
-    SS=1; 
+    SS=1;
 
     return angles[1];
 }
+
 
 #ifdef AHRS_TEST
 
@@ -174,11 +262,12 @@ void __ISR(_TIMER_2_VECTOR, ipl3) Timer2Handler(void) {
 
 
 
-
-
 void main() {
+
     BOARD_Init();
+    printf("Board inited, running main \n");
     AHRS_init();
+    printf("AHRS inited");
     timer_init();
 
     printf("%f\n",0x0fffffff);
@@ -186,3 +275,4 @@ void main() {
 }
 
 #endif
+

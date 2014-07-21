@@ -4,7 +4,7 @@
  *
  * Created on May 8, 2014, 2:21 PM
  */
-#define RUN_MAIN
+//#define RUN_MAIN
 
 #include "xc.h"
 #include "stdio.h"
@@ -19,6 +19,7 @@
 
 int main(void) { 
      //do initialization
+
     BOARD_Init();
     init_all_getters();
     init_all_setters();
