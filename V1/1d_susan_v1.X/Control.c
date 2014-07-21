@@ -12,11 +12,12 @@
 #include "Control.h"
 #include "serial.h"
 #include "board.h"
+#include "math.h"
 
 #define MAX_ENC_READING 3300
 #define PI 3.14159
 
-<<<<<<< HEAD
+
 //constants for control
 #define Ki 10
 #define Kp 300
@@ -135,17 +136,5 @@ int Control(struct inputs *in, struct outputs *out, float command) {
     }else{
         return 0;
     }
-=======
-void init_control(void){
-
 }
 
- void Control(struct inputs *in, struct outputs *out){
- 
-    float angle = in->AHRS_angle;
-    printf("%f \n", angle);
-
-    float con=(angle/PI*500)+1000;
-    out->pulse_width =(unsigned int)con;
->>>>>>> parent of e8bc69a... PI Control and inertial wheel
-}

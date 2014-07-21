@@ -9,7 +9,7 @@
 
 //define this if you want to test the encoder
 // the test should spit out encoder values indefinitely
-#define TEST_ENCODER
+//#define TEST_ENCODER
 
 // define this if you want the encoder to be read through SPI. Otherwise it uses
 // pwm and input capture.

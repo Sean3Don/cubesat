@@ -1,0 +1,9 @@
+*.o
+MDB/MDB.X/nbproject/Makefile-genesis.properties
+1D test rig with HDD bearing/support_male.SLDPRT
+1D test rig with HDD bearing/support_female.SLDPRT
+*.o
+*.elf
+*.hex
+*.map
+V1/1d_susan_v1.X/nbproject/Makefile-genesis.properties
