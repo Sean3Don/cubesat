@@ -1,4 +1,4 @@
-Microchip Technology Inc, vø	c
+Microchip Technology Inc, vÄ
 
 Tool Name:
   c:\program files (x86)\microchip\xc16\v1.21\bin\bin\..\bin/elf-ld.exe
@@ -22,6 +22,8 @@ Command:
   -Lc:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/dsPIC33F \
   -Lc:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../support/dsPIC33F/gld \
   build/default/production/main.o \
+  build/default/production/commutation.o \
+  build/default/production/SPIcoms.o \
   --local-stack \
   --defsym=__MPLAB_BUILD=1 \
   -Tp33EP256MC506.gld.00 \
@@ -51,25 +53,30 @@ c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt
                               (__resetPRI)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
                               c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o) (__data_init_extended)
+c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
+                              build/default/production/commutation.o (___udivsi3)
 
 
 Program Memory  [Origin = 0x200, Length = 0x2adea]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200                0xd0           0x138  (312)
-.text                        0x2d0               0x2a2           0x3f3  (1011)
-.dinit                       0x572                 0x2             0x3  (3)
+.text                        0x200                0xf0           0x168  (360)
+.text                        0x2f0               0x724           0xab6  (2742)
+.dinit                       0xa14                0x3c            0x5a  (90)
 
-                     Total program memory used (bytes):          0x52e  (1326) <1%
+                     Total program memory used (bytes):          0xc78  (3192) 1%
 
 
 Data Memory  [Origin = 0x1000, Length = 0x8000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
+.ndata                      0x1000                   0            0x2c  (44)
+.nbss                       0x102c                   0            0x14  (20)
+.ndata                      0x1040                   0             0x4  (4)
 
-                        Total data memory used (bytes):              0  (0) 
+                        Total data memory used (bytes):           0x44  (68) <1%
 
 
 Dynamic Memory Usage
@@ -77,10 +84,48 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x1000                              0x8000  (32768)
+stack                       0x1044                              0x7fbc  (32700)
 
-                        Maximum dynamic memory (bytes):         0x8000  (32768)
+                        Maximum dynamic memory (bytes):         0x7fbc  (32700)
 
+
+External Symbols in Data Memory (by address):
+
+                    0x1000                  _duty_cycle
+                    0x1002                  _drive_direction
+                    0x1004                  _current_command
+                    0x1006                  _direction
+                    0x1008                  _current_speed
+                    0x100a                  _ticks
+                    0x100e                  _numerator
+                    0x1012                  _last8
+                    0x1022                  _sum
+                    0x1026                  _i
+                    0x1028                  _tt
+                    0x102c                  _send_buf
+                    0x103c                  _oldHalls
+                    0x103e                  _dirsign
+                    0x1040                  _head
+                    0x1042                  _tail
+
+External Symbols in Data Memory (by name):
+
+                    0x1004                  _current_command
+                    0x1008                  _current_speed
+                    0x1006                  _direction
+                    0x103e                  _dirsign
+                    0x1002                  _drive_direction
+                    0x1000                  _duty_cycle
+                    0x1040                  _head
+                    0x1026                  _i
+                    0x1012                  _last8
+                    0x100e                  _numerator
+                    0x103c                  _oldHalls
+                    0x102c                  _send_buf
+                    0x1022                  _sum
+                    0x1042                  _tail
+                    0x100a                  _ticks
+                    0x1028                  _tt
 
 External Symbols in Program Memory (by address):
 
@@ -89,28 +134,52 @@ External Symbols in Program Memory (by address):
                   0x000232                  __data_init_extended
                   0x000232                  __data_init
                   0x0002cc                  __DefaultInterrupt
-                  0x0002d0                  _clockInit
-                  0x000324                  _timersInit
-                  0x000350                  _hallInit
-                  0x00035c                  _pwmInit
-                  0x0003ee                  _block_com
-                  0x00053a                  __T2Interrupt
-                  0x000560                  _main
+                  0x0002d0                  ___udivsi3
+                  0x0002f0                  _commutationInit
+                  0x00031c                  _hallsInit
+                  0x000364                  _pwmInit
+                  0x0003f6                  _get_current_command
+                  0x000400                  _MAV_filt
+                  0x00047a                  _get_speed_and_direction
+                  0x0005ae                  _block_com
+                  0x0006fe                  _get_velocity
+                  0x000714                  _abs_val
+                  0x00072a                  _safety_check
+                  0x00083e                  _update_duty_cycle_and_direction
+                  0x00087e                  __T2Interrupt
+                  0x0008a8                  _clockInit
+                  0x0008fc                  _main
+                  0x000912                  _SPI_send
+                  0x000934                  _pop_to_outbox
+                  0x000964                  _SPIinit
+                  0x0009e2                  __SPI2Interrupt
 
 External Symbols in Program Memory (by name):
 
+                  0x000400                  _MAV_filt
+                  0x000912                  _SPI_send
+                  0x000964                  _SPIinit
                   0x0002cc                  __DefaultInterrupt
-                  0x00053a                  __T2Interrupt
+                  0x0009e2                  __SPI2Interrupt
+                  0x00087e                  __T2Interrupt
+                  0x0002d0                  ___udivsi3
                   0x000232                  __data_init
                   0x000232                  __data_init_extended
                   0x000226                  __psv_init
                   0x000200                  __resetPRI
-                  0x0003ee                  _block_com
-                  0x0002d0                  _clockInit
-                  0x000350                  _hallInit
-                  0x000560                  _main
-                  0x00035c                  _pwmInit
-                  0x000324                  _timersInit
+                  0x000714                  _abs_val
+                  0x0005ae                  _block_com
+                  0x0008a8                  _clockInit
+                  0x0002f0                  _commutationInit
+                  0x0003f6                  _get_current_command
+                  0x00047a                  _get_speed_and_direction
+                  0x0006fe                  _get_velocity
+                  0x00031c                  _hallsInit
+                  0x0008fc                  _main
+                  0x000934                  _pop_to_outbox
+                  0x000364                  _pwmInit
+                  0x00072a                  _safety_check
+                  0x00083e                  _update_duty_cycle_and_direction
 
 Memory Configuration
 
@@ -134,6 +203,8 @@ FUID3            0x800ffe           0x000002
 Linker script and memory map
 
 LOAD build/default/production/main.o
+LOAD build/default/production/commutation.o
+LOAD build/default/production/SPIcoms.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/dsPIC33E\libp33EP256MC506-elf.a
                     0x2aff0                  __FICD = 0x2aff0
@@ -159,7 +230,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/dsPIC33E\libp
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200         0xd0
+.text             0x000200         0xf0
  *(.init)
  .init            0x000200         0x32 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o)
                   0x000200                  __resetPRI
@@ -177,28 +248,30 @@ LOAD c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/dsPIC33E\libp
  *(.libm)
  *(.libdsp)
  *(.lib*)
+ .libm.udivsi3    0x0002d0         0x20 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
+                  0x0002d0                  ___udivsi3
 
 usercode
  *(usercode)
 
 __FICD            0x02aff0          0x2
  *(__FICD.sec*)
- __FICD.sec       0x02aff0          0x2 build/default/production/main.o
+ __FICD.sec       0x02aff0          0x2 build/default/production/commutation.o
 
 __FPOR
  *(__FPOR.sec*)
 
 __FWDT            0x02aff4          0x2
  *(__FWDT.sec*)
- __FWDT.sec       0x02aff4          0x2 build/default/production/main.o
+ __FWDT.sec       0x02aff4          0x2 build/default/production/commutation.o
 
 __FOSC            0x02aff6          0x2
  *(__FOSC.sec*)
- __FOSC.sec       0x02aff6          0x2 build/default/production/main.o
+ __FOSC.sec       0x02aff6          0x2 build/default/production/commutation.o
 
 __FOSCSEL         0x02aff8          0x2
  *(__FOSCSEL.sec*)
- __FOSCSEL.sec    0x02aff8          0x2 build/default/production/main.o
+ __FOSCSEL.sec    0x02aff8          0x2 build/default/production/commutation.o
 
 __FGS
  *(__FGS.sec*)
@@ -218,26 +291,33 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x1dba
+.debug_info       0x000000       0x3190
  *(.debug_info)
- .debug_info      0x000000       0x1dba build/default/production/main.o
+ .debug_info      0x000000       0x2122 build/default/production/commutation.o
+ .debug_info      0x002122       0x106e build/default/production/SPIcoms.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x17b
+.debug_abbrev     0x000000        0x393
  *(.debug_abbrev)
- .debug_abbrev    0x000000        0x17b build/default/production/main.o
+ .debug_abbrev    0x000000          0x1 build/default/production/main.o
+ .debug_abbrev    0x000001        0x242 build/default/production/commutation.o
+ .debug_abbrev    0x000243        0x150 build/default/production/SPIcoms.o
 
-.debug_line       0x000000        0x45a
+.debug_line       0x000000        0xb21
  *(.debug_line)
- .debug_line      0x000000        0x45a build/default/production/main.o
+ .debug_line      0x000000         0x24 build/default/production/main.o
+ .debug_line      0x000024        0x86e build/default/production/commutation.o
+ .debug_line      0x000892        0x28f build/default/production/SPIcoms.o
 
-.debug_frame      0x000000         0x84
+.debug_frame      0x000000        0x148
  *(.debug_frame)
- .debug_frame     0x000000         0x84 build/default/production/main.o
+ .debug_frame     0x000000         0xf4 build/default/production/commutation.o
+ .debug_frame     0x0000f4         0x54 build/default/production/SPIcoms.o
 
-.debug_str        0x000000         0xe0
+.debug_str        0x000000        0x1a0
  *(.debug_str)
- .debug_str       0x000000         0xe0 build/default/production/main.o
+ .debug_str       0x000000        0x12c build/default/production/commutation.o
+ .debug_str       0x00012c         0x74 build/default/production/SPIcoms.o
 
 .debug_loc
  *(.debug_loc)
@@ -246,18 +326,22 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000         0x9b
+                  0x000000        0x24a
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x9b build/default/production/main.o
+                  0x000000        0x1db build/default/production/commutation.o
+ .debug_pubnames
+                  0x0001db         0x6f build/default/production/SPIcoms.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000         0x18
+.debug_aranges    0x000000         0x30
  *(.debug_aranges)
  .debug_aranges
-                  0x000000         0x18 build/default/production/main.o
+                  0x000000         0x18 build/default/production/commutation.o
+ .debug_aranges
+                  0x000018         0x18 build/default/production/SPIcoms.o
 
 .ivt              0x000004        0x13e
                   0x000004          0x4 LONG 0x2cc DEFINED (__OscillatorFail)?ABSOLUTE (__OscillatorFail):ABSOLUTE (__DefaultInterrupt)
@@ -275,7 +359,7 @@ __FUID3
                   0x00001c          0x4 LONG 0x2cc DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x2cc DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x2cc DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0x53a DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0x87e DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000024          0x4 LONG 0x2cc DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x2cc DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x2cc DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -301,7 +385,7 @@ __FUID3
                   0x000050          0x4 LONG 0x2cc DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000052          0x4 LONG 0x2cc DEFINED (__U2TXInterrupt)?ABSOLUTE (__U2TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000054          0x4 LONG 0x2cc DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000056          0x4 LONG 0x2cc DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000056          0x4 LONG 0x9e2 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000058          0x4 LONG 0x2cc DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005a          0x4 LONG 0x2cc DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005c          0x4 LONG 0x2cc DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1833,29 +1917,75 @@ OUTPUT(dist/default/production/MDB.X.production.elf elf32-pic30)
 LOAD default_isr
 LOAD data_init
 
-.debug_pubtypes
-                  0x000018        0x1e3
- .debug_pubtypes
-                  0x000018        0x1e3 build/default/production/main.o
-
 __c30_signature
-                  0x0001fc         0x12
+                  0x000030         0x24
  __c30_signature
-                  0x0001fc          0x6 build/default/production/main.o
+                  0x000030          0x6 build/default/production/main.o
  __c30_signature
-                  0x000202          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o)
+                  0x000036          0x6 build/default/production/commutation.o
  __c30_signature
-                  0x000208          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
+                  0x00003c          0x6 build/default/production/SPIcoms.o
+ __c30_signature
+                  0x000042          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o)
+ __c30_signature
+                  0x000048          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
+ __c30_signature
+                  0x00004e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
 
-.text             0x0002d0        0x2a2
- .text            0x0002d0        0x2a2 build/default/production/main.o
-                  0x0002d0                  _clockInit
-                  0x000324                  _timersInit
-                  0x000350                  _hallInit
-                  0x00035c                  _pwmInit
-                  0x0003ee                  _block_com
-                  0x00053a                  __T2Interrupt
-                  0x000560                  _main
+.debug_pubtypes
+                  0x000054        0x34b
+ .debug_pubtypes
+                  0x000054        0x1e9 build/default/production/commutation.o
+ .debug_pubtypes
+                  0x00023d        0x162 build/default/production/SPIcoms.o
 
-.dinit            0x000572          0x2
- .dinit           0x000572          0x2 data_init
+.ndata              0x1000         0x2c
+ .ndata             0x1000         0x2c build/default/production/commutation.o
+                    0x1000                  _duty_cycle
+                    0x1002                  _drive_direction
+                    0x1004                  _current_command
+                    0x1006                  _direction
+                    0x1008                  _current_speed
+                    0x100a                  _ticks
+                    0x100e                  _numerator
+                    0x1012                  _last8
+                    0x1022                  _sum
+                    0x1026                  _i
+                    0x1028                  _tt
+
+.nbss               0x102c         0x14
+ .nbss              0x102c         0x10 build/default/production/SPIcoms.o
+                    0x102c                  _send_buf
+ .nbss              0x103c          0x4 build/default/production/commutation.o
+                    0x103c                  _oldHalls
+                    0x103e                  _dirsign
+
+.ndata              0x1040          0x4
+ .ndata             0x1040          0x4 build/default/production/SPIcoms.o
+                    0x1040                  _head
+                    0x1042                  _tail
+
+.text             0x0002f0        0x724
+ .text            0x0002f0        0x622 build/default/production/commutation.o
+                  0x0002f0                  _commutationInit
+                  0x00031c                  _hallsInit
+                  0x000364                  _pwmInit
+                  0x0003f6                  _get_current_command
+                  0x000400                  _MAV_filt
+                  0x00047a                  _get_speed_and_direction
+                  0x0005ae                  _block_com
+                  0x0006fe                  _get_velocity
+                  0x000714                  _abs_val
+                  0x00072a                  _safety_check
+                  0x00083e                  _update_duty_cycle_and_direction
+                  0x00087e                  __T2Interrupt
+                  0x0008a8                  _clockInit
+                  0x0008fc                  _main
+ .text            0x000912        0x102 build/default/production/SPIcoms.o
+                  0x000912                  _SPI_send
+                  0x000934                  _pop_to_outbox
+                  0x000964                  _SPIinit
+                  0x0009e2                  __SPI2Interrupt
+
+.dinit            0x000a14         0x3c
+ .dinit           0x000a14         0x3c data_init

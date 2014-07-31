@@ -12,12 +12,15 @@
  * Created on May 8, 2014, 2:27 PM
  */
 
+#include "stdint.h"
 //define this if you need to run the ESC calibration routine
 //#define CALIBRATE_ESC
 
 //define this if you want to play with the ESC
 //#define ESC_TEST
 
+//define this to test the MDB
+#define MDB_test
 
 #define ESC_PIN RC_PORTX04 // this pin corresponds to RB0 or J5 15 ont the UNO
 
@@ -53,6 +56,24 @@ void set_ESC_pulse(unsigned int pulse_width);
 
 
 
+void init_MDB(void);
+/*Function init_MDB
+
+ * This function just waits a bit so the MDB has time to start up.
+ */
+
+int16_t motor_command(int16_t command);
+/*Function void motor_command(int16_t command)
+ *
+ * Input: int16_t command: duty cycle and direction. Between -1000 and 1000. Anythign
+ * above or below will be rounded, except 0x8000 which does nothing, and is only
+ * use for reading
+ *
+ * Output: Every time anything is sent to the MDB, it sends back it's current velocity in rpm
+ * Negative values means reverse direction.
+
+ * On every trasnmission this function sets up the SPI the way it needs it.
+ */
 
 
 
