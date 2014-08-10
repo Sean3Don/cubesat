@@ -11,6 +11,8 @@
 
 
 
+
+
 #ifndef SPICOMS_H
 #define	SPICOMS_H
 
@@ -18,7 +20,7 @@
 void SPIinit(void);
 
 
-// this is used to send back debugging information and not for use during actuall
+// this is used to send back debugging information and not for use during actual
 // operation. This pops messages onto a queue and sends them off when the master
 // transmits something. Normally we will always be sending the most up to date
 // speed information back to the master and will have no use for queues

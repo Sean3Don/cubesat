@@ -25,7 +25,16 @@ float AHRS_get_yaw(void);
 /*
  * function: AHRS_get_yaw
  *
- * returns the yaw angle from the AHRS
+ * returns the yaw angle from the AHRS in radians between -pi and pi.
+
+ */
+
+float AHRS_get_yaw_rate(void);
+/*
+ * function AHRS_get_yaw_rate
+ *
+ * returns the rate of rotation about the yaw axis in rad/s.
+ *
 
  */
 

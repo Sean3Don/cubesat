@@ -5,6 +5,7 @@
 #define RX 0xFF
 #define TARE 0x60
 #define TARED_EULER_ANGLES 0x01
+#define NORM_GYRO_RATE 0x21
 
 
 
@@ -77,7 +78,7 @@ void send_command(unsigned int command){
 
     unsigned int config = SPI_CON_MODE8 | SPI_CON_MSTEN|SPI_CON_CKE ;
     // the last number is the clock divider
-    SpiChnOpen(SPI_CHANNEL2, config, 256);
+    SpiChnOpen(SPI_CHANNEL2, config, 256); //256 works, //4 doesnt
     SS = 1;
     //initiate coms
     txrx_byte(START_TX);
@@ -101,9 +102,9 @@ void AHRS_init(void) {
     // this part sets up the SPI interface\
     // channel 2 is the one for J8 on the UNO32
     // new data is placed on line at falling edge
-    unsigned int config = SPI_CON_MODE8 | SPI_CON_MSTEN|SPI_CON_CKE ;
-    // the last number is the clock divider
-    SpiChnOpen(SPI_CHANNEL2, config, 4);
+//    unsigned int config = SPI_CON_MODE8 | SPI_CON_MSTEN|SPI_CON_CKE ;
+//    // the last number is the clock divider
+//    SpiChnOpen(SPI_CHANNEL2, config, );
 
 
     // this is the slave select pin. it's controlled in software. you need to bring
@@ -142,37 +143,55 @@ float AHRS_get_yaw(void){
 
     //close the com channel
     SS=1;
+    SpiChnClose(SPI_CHANNEL2);
 
     return angles[1];
+}
+
+float AHRS_get_yaw_rate(void){
+    send_command(NORM_GYRO_RATE);
+
+        //create and receive array. 12 unsigned ints, but only the lowest byte
+    //is used to create 3 floats.
+    uint32_t receive_array[12];
+
+    int i=0;
+    for(i;i<12;i++){
+        //for each byte, get txrx_byte sends back a unsigned int, then and with 0xff and cast to char
+        //to keep the 8 lsbs
+        receive_array[i]=txrx_byte(RX);
+    }
+
+
+    //read off the 12 bytes that come back as 3 floats
+    float  rates[3];
+    unpack_data(rates,receive_array,3);
+    // now angles contains 3 euler angles, pitch, yaw, roll in that order
+
+    //close the com channel
+    SS=1;
+    SpiChnClose(SPI_CHANNEL2);
+
+    return rates[1];
+
 }
 
 #ifdef AHRS_TEST
 
 #define TIMER_VAL 0xFFFF
 
-void timer_init(void) {
-    T2CON = 0x0;
-    TMR2 = 0x0;
-    PR2 = TIMER_VAL;
+#include "peripheral/timer.h"
 
-    IPC2SET = 0x0000000D;
-    IFS0CLR = 0x00000100;
-    IEC0SET = 0x00000100;
-    //turn on timer and set prescaler
-    T2CONSET = 0x8070;
+void timer_init(void) {
+    OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_256, 0xffff);
+    ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_3);
+    INTEnableSystemMultiVectoredInt();
 }
 
-float angle = 0;
-
-void __ISR(_TIMER_2_VECTOR, ipl3) Timer2Handler(void) {
-    T2CONSET = 0x8000;
-    printf("timer overrun \n");
-    printf("yaw %f\n", AHRS_get_yaw());
-
-
-
-    // clear timer interrupt
-    IFS0CLR = 0x00000100;
+void __ISR(_TIMER_3_VECTOR, ipl3) Timer3Handler(void) {
+    mT3ClearIntFlag();
+    printf("yaw: %f\n",AHRS_get_yaw());
+    printf("yaw rate: %f \n\n", AHRS_get_yaw_rate());
 
 }
 

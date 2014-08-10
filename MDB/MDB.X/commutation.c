@@ -14,6 +14,9 @@
 #define RESET2 LATBbits.LATB13
 #define RESET1 LATBbits.LATB15
 
+#define PWMINPUT PORTBbits.RB7
+#define DIRINPUT PORTBbits.RB9
+
 #define DISC_THRESH 2000 //Data points which are this far from the average will not be included in the average. Good for 
 // keeping clean numbers, but make sure it's faster than the acceleration of the motor, otherwise
 // the speed gets stuck. This should be adjusted when the reaction wheel is added since the motor
@@ -23,13 +26,21 @@
 #define VmCmax 58080 // Vmax = 11V VmCmax = 10*11V*(1000 mv/V) /(1.895 mv/rpm)
 #define VbattCmax 63  // Vbatt=12V VbattCmax = 12V*(1000 mv/V)/((1.895 mv/rpm)*1000) the last factor of 1000 is because duty cycle goes up to 1000
 
+#define SPEED_HYST_THRESH 100 //hysteresis threshold on speed (TC only)
+
 #define HALLA  PORTCbits.RC6
 #define HALLB  PORTCbits.RC8
 #define HALLC  PORTCbits.RC7
 #define FORWARD 1
 #define REVERSE 0
+#define UP 1
+#define DOWN 0
 
-//commanded:
+
+// torque command
+int32_t commanded_torque = 0;
+
+//commanded (either directly or by torque controller):
 int16_t duty_cycle = 0;
 int16_t drive_direction = 1;
 int16_t current_command = 0; // this is what is currently being executed
@@ -39,7 +50,12 @@ int16_t direction = 1;
 int16_t current_speed = 0;
 uint32_t ticks = 1;
 
-int32_t numerator = 638624; // (60 s/m *127725 ticks/s)/(12 halls/rotation)
+int32_t c1 = 16; //100000 *.001895(ke)/12 (Vbatt)
+int32_t c2 = 13; // 100000*28.8(R)/(18100(Km in uNm/A)*12(Vbatt))
+
+int max_speed_reached = 0;
+
+int32_t numerator = 494934; // (60 s/m *127725 ticks/s)/(12 halls/rotation)*(6200/8000 correction factor)
 char oldHalls;
 
 void commutationInit(void) {
@@ -129,6 +145,44 @@ int16_t get_current_command(void) {
     return current_command;
 }
 
+int16_t abs_val(int16_t num) {
+    if (num > 0) {
+        return num;
+    } else {
+        return -num;
+    }
+
+}
+
+void check_bounds(void) {
+    if (max_speed_reached) {
+        if (abs_val(current_speed) < MAX_SPEED - SPEED_HYST_THRESH) {
+            max_speed_reached = 0;
+            return;
+        }
+    } else {
+        if (abs_val(current_speed) > MAX_SPEED + SPEED_HYST_THRESH) {
+            max_speed_reached = 1;
+        }
+    }
+}
+//This is where torque control is implemented
+
+void torque_control(void) {
+    check_bounds();
+    if (max_speed_reached) {
+        duty_cycle = DUTY_CYCLE_MAX_SPEED;
+        LED1 = 1;
+    } else {
+        int32_t speed = current_speed;
+        if (direction == REVERSE) {
+            speed = -speed;
+        }
+        int32_t kV = speed * c1 + commanded_torque*c2;
+        update_duty_cycle_and_direction(kV / 100);
+    }
+}
+
 //Eight point moving average filter which discards data points which are too
 // far (1000 rpm) from the average
 int16_t last8[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -214,6 +268,11 @@ void get_speed_and_direction(char currHalls) {
                 direction = REVERSE;
             }
         }
+        //        if (direction) {
+        //            LED1 = 1;
+        //        } else {
+        //            LED1 = 0;
+        //        }
         current_speed = MAV_filt((int16_t) (numerator / ticks));
         SPI2BUF = get_velocity(); //so that when the master reads it gets up to date velocity info
         ticks = 1;
@@ -221,6 +280,49 @@ void get_speed_and_direction(char currHalls) {
 
     } else {
         ticks++;
+    }
+}
+
+void PWM_update_command(int32_t up, int32_t down) {
+    if (down == 0) {
+        if (DIRINPUT == FORWARD) {
+            update_duty_cycle_and_direction(1000);
+        } else {
+            update_duty_cycle_and_direction(-1000);
+        }
+    } else {
+        int16_t com = (int16_t) (up * 1000 / (up + down)); // multiply by 1000 then divide by total
+        if (DIRINPUT == FORWARD) {
+            update_duty_cycle_and_direction(com);
+        } else {
+            update_duty_cycle_and_direction(-com);
+        }
+    }
+}
+
+
+//
+int32_t pwmInUp = 0; // pwm input uptime
+int32_t pwmInDown = 0; // pwm input downtime
+int16_t curState = DOWN;
+
+void check_pwm_input(void) {
+    if (curState == UP) {
+        if (PWMINPUT == UP) {
+            pwmInUp++;
+        } else {
+            pwmInDown++;
+            curState = DOWN;
+        }
+    } else {
+        if (PWMINPUT == UP) {
+            PWM_update_command(pwmInUp, pwmInDown);
+            pwmInUp = 1;
+            pwmInDown = 0;
+            curState = DOWN;
+        } else {
+            pwmInDown++;
+        }
     }
 }
 
@@ -335,6 +437,7 @@ void block_com(int duty_cycle, int direction) {
     PDC3 = dc3;
 
     get_speed_and_direction(halls);
+   // check_pwm_input();
 }
 
 int16_t get_velocity(void) {
@@ -350,15 +453,6 @@ int16_t get_velocity(void) {
 //coming from the master. If the command would put more than 12 volts (but really
 //11 for safety) accross the coil (back emf + vbat*duty cycle), the command is ignored
 // and the function returns the current duty cycle and commanded direction.
-
-int16_t abs_val(int16_t num) {
-    if (num > 0) {
-        return num;
-    } else {
-        return -num;
-    }
-
-}
 
 int16_t safety_check(int16_t command) {
     int32_t command32 = (int32_t) (abs_val(command));
@@ -414,6 +508,17 @@ void update_duty_cycle_and_direction(int16_t command) {
     }
 }
 
+void update_torque_command(int32_t tcommand) {
+    // ignore command if outside of bounds
+    if (tcommand > MAX_TORQUE) {
+        return;
+    }
+    if (tcommand<-MAX_TORQUE) {
+        return;
+    }
+    commanded_torque = tcommand;
+}
+
 
 // timer interrupts call the function which reads the halls and re-evaluates
 // which coils to turn on
@@ -428,16 +533,13 @@ void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void) {
 
     block_com(duty_cycle, drive_direction);
 
-
-    //following code used for testing the interrupt frequency
-    // to make sure it's what we think it is (156,250 hz), we will make it count to
-    // 60*156250 and if it takes a minute we'll know it's good
-
-    //    tt++;
-    //    if (tt > 8203125) {
-    //        LED1 = 0;
-    //    }
-
+#ifdef TORQUE_COMMAND
+    if (tt == 5000) {
+        tt++;
+        torque_control();
+        tt = 0;
+    }
+#endif
 
 
     TMR2 = 0x0000;
@@ -448,7 +550,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void) {
 #ifdef TEST_COMMAND
 /* In this test we set make the MDB think the motor is spinning at 6000 RPM forward
  * and then we send in commands via SPI. We send both allowed commands (between
- * +1000 and -1000, and not causing more than 11 v of drive voltage + back emf), and 
+ * +1000 and -1000, and not causing more than 11 v of drive voltage + back emf), and
  * commands that do not satisfy this and will not be accepted. We send back the command
  * being set for execution to make sure that A) you can give the motor speed commands
  * over SPI and B) it will ignore the ones that we want it to ingore.
@@ -511,8 +613,9 @@ int main(void) {
 #endif
 
 
-#ifdef TEST_SPEED_READINGS
+#ifdef PWM_COMS
 #include "SPIcoms.h"
+
 
 
 _FOSCSEL(FNOSC_FRC & IESO_OFF & PWMLOCK_OFF);
@@ -538,18 +641,24 @@ void clockInit() {
     while (OSCCONbits.LOCK != 1);
 }
 
+//set up the pwm input from uno and direction line as inputs
+
+void pwm_communications_init() {
+    TRISBbits.TRISB7 = 1; //PWM
+    TRISBbits.TRISB9 = 1; // direction
+}
+
 int main(void) {
     clockInit();
-    SPIinit();
-    pwmInit();
-    hallsInit();
-    commutationInit();
-    
+    //pwmInit();
+    //hallsInit();
+    //commutationInit();
+    //update_duty_cycle_and_direction(300);
     TRISCbits.TRISC1 = 0;
     TRISCbits.TRISC2 = 0;
 
     LED2 = 1;
-    LED1 = 0;
+    LED1 = 1;
     while (1);
 }
 #endif
@@ -628,5 +737,48 @@ int main(void) {
     LED1 = 1;
     while (1);
 }
+
+#endif
+
+#ifdef TEST_TORQUE_COMMAND
+_FOSCSEL(FNOSC_FRC & IESO_OFF & PWMLOCK_OFF);
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE);
+_FWDT(FWDTEN_OFF);
+_FICD(ICS_PGD1 & JTAGEN_OFF);
+
+void clockInit() {
+    // 140.03 MHz VCO  -- 70 MIPS
+    PLLFBD = 74;
+    CLKDIVbits.PLLPRE = 0;
+    CLKDIVbits.PLLPOST = 0;
+
+    // Initiate Clock Switch to FRC oscillator with PLL (NOSC=0b001)
+    __builtin_write_OSCCONH(0x01);
+
+    __builtin_write_OSCCONL(OSCCON | 0x01);
+
+    // Wait for Clock switch to occur
+    while (OSCCONbits.COSC != 0b001);
+
+    // Wait for PLL to lock
+    while (OSCCONbits.LOCK != 1);
+}
+
+int main(void) {
+    clockInit();
+    pwmInit();
+    hallsInit();
+    commutationInit();
+    TRISCbits.TRISC1 = 0;
+    TRISCbits.TRISC2 = 0;
+    LED2 = 0;
+    LED1 = 0;
+    //update_duty_cycle_and_direction(100);
+    //update_torque_command(0);
+    while (1);
+}
+
+
+
 
 #endif

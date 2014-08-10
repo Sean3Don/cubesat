@@ -19,8 +19,14 @@
 //define this if you want to play with the ESC
 //#define ESC_TEST
 
+//define this if you want to communicate with the MDB over SPI
+//#define SPI_COMS_MDB
+
+//define this if you want to be able to command motor speed with PMW (motor speed readings not available in this mode)
+#define PWM_COMS_MDB
+
 //define this to test the MDB
-#define MDB_test
+//#define MDB_test
 
 #define ESC_PIN RC_PORTX04 // this pin corresponds to RB0 or J5 15 ont the UNO
 

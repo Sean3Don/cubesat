@@ -12,6 +12,7 @@
 #include "xc.h"
 #include "serial.h"
 #include "BOARD.h"
+#include "AD.h"
 #include "getters.h"
 #include "AHRS.h"
 #include <peripheral/spi.h>
@@ -35,6 +36,8 @@ void wait(int cycles) {
 void init_all_getters(void) {
     //init_encoder();
     init_AHRS();
+    printf("ahrs inited \n");
+    init_battery_voltage_reader();
 }
 
 void init_AHRS(void) {
@@ -44,6 +47,22 @@ void init_AHRS(void) {
 float get_AHRS_angle(void) {
     return AHRS_get_yaw();
 }
+
+float get_AHRS_rate(void){
+    return AHRS_get_yaw_rate();
+}
+
+void init_battery_voltage_reader(){
+    AD_Init();
+    AD_AddPins(BAT_VOLTAGE);
+}
+
+float get_battery_voltage(void){
+    unsigned int ADC_reading = AD_ReadADPin(BAT_VOLTAGE);
+    float voltage = ((float)ADC_reading)/34.5;
+    return voltage;
+}
+
 #ifdef SPI_ENC
 
 void init_encoder(void) {

@@ -12,14 +12,18 @@
 #ifndef CONTROL_H
 #define	CONTROL_H
 
-struct inputs {
+#include <stdint.h>
+
+typedef struct inputs {
     float enc_angle;
     float AHRS_angle;
-};
-
+    float AHRS_yaw_rate;
+    float bat_voltage;
+} inputs_t;
 
 struct outputs {
     unsigned int pulse_width;
+    int16_t motor_command;
 };
 
 
@@ -31,7 +35,7 @@ void init_control(void);
 
  */
 
- int Control(struct inputs *in, struct outputs *out,float command);
+int Control(struct inputs *in, struct outputs *out, float command);
 /* Function: control
  *
  * here is where you implement the controller. The inputs structs has all the

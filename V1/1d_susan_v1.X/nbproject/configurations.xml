@@ -13,6 +13,7 @@
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/runner.h</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.h</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/AHRS.h</itemPath>
+      <itemPath>../../cmpe118 libraries/include/pwm.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -32,6 +33,7 @@
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/Control.c</itemPath>
       <itemPath>C:/Users/Dmitriy/Documents/GitHub/cubesat/V1/1d_susan_v1.X/AHRS.c</itemPath>
       <itemPath>printer.c</itemPath>
+      <itemPath>../../cmpe118 libraries/src/pwm.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

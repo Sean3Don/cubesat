@@ -53,6 +53,8 @@ c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt
                               (__resetPRI)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
                               c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o) (__data_init_extended)
+c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divsi3.epeo)
+                              build/default/production/commutation.o (___divsi3)
 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
                               build/default/production/commutation.o (___udivsi3)
 
@@ -61,22 +63,22 @@ Program Memory  [Origin = 0x200, Length = 0x2adea]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200                0xf0           0x168  (360)
-.text                        0x2f0               0x724           0xab6  (2742)
-.dinit                       0xa14                0x3c            0x5a  (90)
+.text                        0x200               0x10e           0x195  (405)
+.text                        0x30e               0x8e0           0xd50  (3408)
+.dinit                       0xbee                0x4c            0x72  (114)
 
-                     Total program memory used (bytes):          0xc78  (3192) 1%
+                     Total program memory used (bytes):          0xf57  (3927) 1%
 
 
 Data Memory  [Origin = 0x1000, Length = 0x8000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.ndata                      0x1000                   0            0x2c  (44)
-.nbss                       0x102c                   0            0x14  (20)
-.ndata                      0x1040                   0             0x4  (4)
+.ndata                      0x1000                   0            0x44  (68)
+.nbss                       0x1044                   0            0x14  (20)
+.ndata                      0x1058                   0             0x4  (4)
 
-                        Total data memory used (bytes):           0x44  (68) <1%
+                        Total data memory used (bytes):           0x5c  (92) <1%
 
 
 Dynamic Memory Usage
@@ -84,102 +86,130 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x1044                              0x7fbc  (32700)
+stack                       0x105c                              0x7fa4  (32676)
 
-                        Maximum dynamic memory (bytes):         0x7fbc  (32700)
+                        Maximum dynamic memory (bytes):         0x7fa4  (32676)
 
 
 External Symbols in Data Memory (by address):
 
-                    0x1000                  _duty_cycle
-                    0x1002                  _drive_direction
-                    0x1004                  _current_command
-                    0x1006                  _direction
-                    0x1008                  _current_speed
-                    0x100a                  _ticks
-                    0x100e                  _numerator
-                    0x1012                  _last8
-                    0x1022                  _sum
-                    0x1026                  _i
-                    0x1028                  _tt
-                    0x102c                  _send_buf
-                    0x103c                  _oldHalls
-                    0x103e                  _dirsign
-                    0x1040                  _head
-                    0x1042                  _tail
+                    0x1000                  _commanded_torque
+                    0x1004                  _duty_cycle
+                    0x1006                  _drive_direction
+                    0x1008                  _current_command
+                    0x100a                  _direction
+                    0x100c                  _current_speed
+                    0x100e                  _ticks
+                    0x1012                  _c1
+                    0x1016                  _c2
+                    0x101a                  _max_speed_reached
+                    0x101c                  _numerator
+                    0x1020                  _last8
+                    0x1030                  _sum
+                    0x1034                  _i
+                    0x1036                  _pwmInUp
+                    0x103a                  _pwmInDown
+                    0x103e                  _curState
+                    0x1040                  _tt
+                    0x1044                  _send_buf
+                    0x1054                  _oldHalls
+                    0x1056                  _dirsign
+                    0x1058                  _head
+                    0x105a                  _tail
 
 External Symbols in Data Memory (by name):
 
-                    0x1004                  _current_command
-                    0x1008                  _current_speed
-                    0x1006                  _direction
-                    0x103e                  _dirsign
-                    0x1002                  _drive_direction
-                    0x1000                  _duty_cycle
-                    0x1040                  _head
-                    0x1026                  _i
-                    0x1012                  _last8
-                    0x100e                  _numerator
-                    0x103c                  _oldHalls
-                    0x102c                  _send_buf
-                    0x1022                  _sum
-                    0x1042                  _tail
-                    0x100a                  _ticks
-                    0x1028                  _tt
+                    0x1012                  _c1
+                    0x1016                  _c2
+                    0x1000                  _commanded_torque
+                    0x103e                  _curState
+                    0x1008                  _current_command
+                    0x100c                  _current_speed
+                    0x100a                  _direction
+                    0x1056                  _dirsign
+                    0x1006                  _drive_direction
+                    0x1004                  _duty_cycle
+                    0x1058                  _head
+                    0x1034                  _i
+                    0x1020                  _last8
+                    0x101a                  _max_speed_reached
+                    0x101c                  _numerator
+                    0x1054                  _oldHalls
+                    0x103a                  _pwmInDown
+                    0x1036                  _pwmInUp
+                    0x1044                  _send_buf
+                    0x1030                  _sum
+                    0x105a                  _tail
+                    0x100e                  _ticks
+                    0x1040                  _tt
 
 External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
                   0x000226                  __psv_init
-                  0x000232                  __data_init_extended
                   0x000232                  __data_init
+                  0x000232                  __data_init_extended
                   0x0002cc                  __DefaultInterrupt
-                  0x0002d0                  ___udivsi3
-                  0x0002f0                  _commutationInit
-                  0x00031c                  _hallsInit
-                  0x000364                  _pwmInit
-                  0x0003f6                  _get_current_command
-                  0x000400                  _MAV_filt
-                  0x00047a                  _get_speed_and_direction
-                  0x0005ae                  _block_com
-                  0x0006fe                  _get_velocity
-                  0x000714                  _abs_val
-                  0x00072a                  _safety_check
-                  0x00083e                  _update_duty_cycle_and_direction
-                  0x00087e                  __T2Interrupt
-                  0x0008a8                  _clockInit
-                  0x0008fc                  _main
-                  0x000912                  _SPI_send
-                  0x000934                  _pop_to_outbox
-                  0x000964                  _SPIinit
-                  0x0009e2                  __SPI2Interrupt
+                  0x0002d0                  ___divsi3
+                  0x0002ee                  ___udivsi3
+                  0x00030e                  _commutationInit
+                  0x00033a                  _hallsInit
+                  0x000382                  _pwmInit
+                  0x000414                  _get_current_command
+                  0x00041e                  _abs_val
+                  0x000434                  _check_bounds
+                  0x000466                  _torque_control
+                  0x0004e2                  _MAV_filt
+                  0x00055c                  _get_speed_and_direction
+                  0x000690                  _PWM_update_command
+                  0x000700                  _check_pwm_input
+                  0x00076e                  _block_com
+                  0x0008be                  _get_velocity
+                  0x0008d4                  _safety_check
+                  0x0009e8                  _update_duty_cycle_and_direction
+                  0x000a28                  _update_torque_command
+                  0x000a56                  __T2Interrupt
+                  0x000a80                  _clockInit
+                  0x000ad4                  _pwm_communications_init
+                  0x000ade                  _main
+                  0x000aec                  _SPI_send
+                  0x000b0e                  _pop_to_outbox
+                  0x000b3e                  _SPIinit
+                  0x000bbc                  __SPI2Interrupt
 
 External Symbols in Program Memory (by name):
 
-                  0x000400                  _MAV_filt
-                  0x000912                  _SPI_send
-                  0x000964                  _SPIinit
+                  0x0004e2                  _MAV_filt
+                  0x000690                  _PWM_update_command
+                  0x000aec                  _SPI_send
+                  0x000b3e                  _SPIinit
                   0x0002cc                  __DefaultInterrupt
-                  0x0009e2                  __SPI2Interrupt
-                  0x00087e                  __T2Interrupt
-                  0x0002d0                  ___udivsi3
+                  0x000bbc                  __SPI2Interrupt
+                  0x000a56                  __T2Interrupt
+                  0x0002d0                  ___divsi3
+                  0x0002ee                  ___udivsi3
                   0x000232                  __data_init
                   0x000232                  __data_init_extended
                   0x000226                  __psv_init
                   0x000200                  __resetPRI
-                  0x000714                  _abs_val
-                  0x0005ae                  _block_com
-                  0x0008a8                  _clockInit
-                  0x0002f0                  _commutationInit
-                  0x0003f6                  _get_current_command
-                  0x00047a                  _get_speed_and_direction
-                  0x0006fe                  _get_velocity
-                  0x00031c                  _hallsInit
-                  0x0008fc                  _main
-                  0x000934                  _pop_to_outbox
-                  0x000364                  _pwmInit
-                  0x00072a                  _safety_check
-                  0x00083e                  _update_duty_cycle_and_direction
+                  0x00041e                  _abs_val
+                  0x00076e                  _block_com
+                  0x000434                  _check_bounds
+                  0x000700                  _check_pwm_input
+                  0x000a80                  _clockInit
+                  0x00030e                  _commutationInit
+                  0x000414                  _get_current_command
+                  0x00055c                  _get_speed_and_direction
+                  0x0008be                  _get_velocity
+                  0x00033a                  _hallsInit
+                  0x000ade                  _main
+                  0x000b0e                  _pop_to_outbox
+                  0x000382                  _pwmInit
+                  0x000ad4                  _pwm_communications_init
+                  0x0008d4                  _safety_check
+                  0x000466                  _torque_control
+                  0x0009e8                  _update_duty_cycle_and_direction
+                  0x000a28                  _update_torque_command
 
 Memory Configuration
 
@@ -230,7 +260,7 @@ LOAD c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/dsPIC33E\libp
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200         0xf0
+.text             0x000200        0x10e
  *(.init)
  .init            0x000200         0x32 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(crt0_extendedep.o)
                   0x000200                  __resetPRI
@@ -248,8 +278,10 @@ LOAD c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib/dsPIC33E\libp
  *(.libm)
  *(.libdsp)
  *(.lib*)
- .libm.udivsi3    0x0002d0         0x20 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
-                  0x0002d0                  ___udivsi3
+ .libm.divsi3     0x0002d0         0x1e c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divsi3.epeo)
+                  0x0002d0                  ___divsi3
+ .libm.udivsi3    0x0002ee         0x20 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
+                  0x0002ee                  ___udivsi3
 
 usercode
  *(usercode)
@@ -291,33 +323,33 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x3190
+.debug_info       0x000000       0x3535
  *(.debug_info)
- .debug_info      0x000000       0x2122 build/default/production/commutation.o
- .debug_info      0x002122       0x106e build/default/production/SPIcoms.o
+ .debug_info      0x000000       0x24c7 build/default/production/commutation.o
+ .debug_info      0x0024c7       0x106e build/default/production/SPIcoms.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x393
+.debug_abbrev     0x000000        0x3ad
  *(.debug_abbrev)
  .debug_abbrev    0x000000          0x1 build/default/production/main.o
- .debug_abbrev    0x000001        0x242 build/default/production/commutation.o
- .debug_abbrev    0x000243        0x150 build/default/production/SPIcoms.o
+ .debug_abbrev    0x000001        0x25c build/default/production/commutation.o
+ .debug_abbrev    0x00025d        0x150 build/default/production/SPIcoms.o
 
-.debug_line       0x000000        0xb21
+.debug_line       0x000000        0xcf1
  *(.debug_line)
  .debug_line      0x000000         0x24 build/default/production/main.o
- .debug_line      0x000024        0x86e build/default/production/commutation.o
- .debug_line      0x000892        0x28f build/default/production/SPIcoms.o
+ .debug_line      0x000024        0xa3e build/default/production/commutation.o
+ .debug_line      0x000a62        0x28f build/default/production/SPIcoms.o
 
-.debug_frame      0x000000        0x148
+.debug_frame      0x000000        0x1a8
  *(.debug_frame)
- .debug_frame     0x000000         0xf4 build/default/production/commutation.o
- .debug_frame     0x0000f4         0x54 build/default/production/SPIcoms.o
+ .debug_frame     0x000000        0x154 build/default/production/commutation.o
+ .debug_frame     0x000154         0x54 build/default/production/SPIcoms.o
 
-.debug_str        0x000000        0x1a0
+.debug_str        0x000000        0x1e0
  *(.debug_str)
- .debug_str       0x000000        0x12c build/default/production/commutation.o
- .debug_str       0x00012c         0x74 build/default/production/SPIcoms.o
+ .debug_str       0x000000        0x16c build/default/production/commutation.o
+ .debug_str       0x00016c         0x74 build/default/production/SPIcoms.o
 
 .debug_loc
  *(.debug_loc)
@@ -326,12 +358,12 @@ __FUID3
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x24a
+                  0x000000        0x32f
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000        0x1db build/default/production/commutation.o
+                  0x000000        0x2c0 build/default/production/commutation.o
  .debug_pubnames
-                  0x0001db         0x6f build/default/production/SPIcoms.o
+                  0x0002c0         0x6f build/default/production/SPIcoms.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -359,7 +391,7 @@ __FUID3
                   0x00001c          0x4 LONG 0x2cc DEFINED (__DMA0Interrupt)?ABSOLUTE (__DMA0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x2cc DEFINED (__IC2Interrupt)?ABSOLUTE (__IC2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x2cc DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0x87e DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0xa56 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000024          0x4 LONG 0x2cc DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x2cc DEFINED (__SPI1ErrInterrupt)?ABSOLUTE (__SPI1ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x2cc DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -385,7 +417,7 @@ __FUID3
                   0x000050          0x4 LONG 0x2cc DEFINED (__U2RXInterrupt)?ABSOLUTE (__U2RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000052          0x4 LONG 0x2cc DEFINED (__U2TXInterrupt)?ABSOLUTE (__U2TXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000054          0x4 LONG 0x2cc DEFINED (__SPI2ErrInterrupt)?ABSOLUTE (__SPI2ErrInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000056          0x4 LONG 0x9e2 DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000056          0x4 LONG 0xbbc DEFINED (__SPI2Interrupt)?ABSOLUTE (__SPI2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000058          0x4 LONG 0x2cc DEFINED (__C1RxRdyInterrupt)?ABSOLUTE (__C1RxRdyInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005a          0x4 LONG 0x2cc DEFINED (__C1Interrupt)?ABSOLUTE (__C1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00005c          0x4 LONG 0x2cc DEFINED (__DMA3Interrupt)?ABSOLUTE (__DMA3Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1918,7 +1950,7 @@ LOAD default_isr
 LOAD data_init
 
 __c30_signature
-                  0x000030         0x24
+                  0x000030         0x2a
  __c30_signature
                   0x000030          0x6 build/default/production/main.o
  __c30_signature
@@ -1930,62 +1962,77 @@ __c30_signature
  __c30_signature
                   0x000048          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libpic30-elf.a(data_init_extendedep.o)
  __c30_signature
-                  0x00004e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
+                  0x00004e          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(divsi3.epeo)
+ __c30_signature
+                  0x000054          0x6 c:/program files (x86)/microchip/xc16/v1.21/bin/bin/../../lib\libm-elf.a(udivsi3.epeo)
 
 .debug_pubtypes
-                  0x000054        0x34b
+                  0x00005a        0x36a
  .debug_pubtypes
-                  0x000054        0x1e9 build/default/production/commutation.o
+                  0x00005a        0x208 build/default/production/commutation.o
  .debug_pubtypes
-                  0x00023d        0x162 build/default/production/SPIcoms.o
+                  0x000262        0x162 build/default/production/SPIcoms.o
 
-.ndata              0x1000         0x2c
- .ndata             0x1000         0x2c build/default/production/commutation.o
-                    0x1000                  _duty_cycle
-                    0x1002                  _drive_direction
-                    0x1004                  _current_command
-                    0x1006                  _direction
-                    0x1008                  _current_speed
-                    0x100a                  _ticks
-                    0x100e                  _numerator
-                    0x1012                  _last8
-                    0x1022                  _sum
-                    0x1026                  _i
-                    0x1028                  _tt
+.ndata              0x1000         0x44
+ .ndata             0x1000         0x44 build/default/production/commutation.o
+                    0x1000                  _commanded_torque
+                    0x1004                  _duty_cycle
+                    0x1006                  _drive_direction
+                    0x1008                  _current_command
+                    0x100a                  _direction
+                    0x100c                  _current_speed
+                    0x100e                  _ticks
+                    0x1012                  _c1
+                    0x1016                  _c2
+                    0x101a                  _max_speed_reached
+                    0x101c                  _numerator
+                    0x1020                  _last8
+                    0x1030                  _sum
+                    0x1034                  _i
+                    0x1036                  _pwmInUp
+                    0x103a                  _pwmInDown
+                    0x103e                  _curState
+                    0x1040                  _tt
 
-.nbss               0x102c         0x14
- .nbss              0x102c         0x10 build/default/production/SPIcoms.o
-                    0x102c                  _send_buf
- .nbss              0x103c          0x4 build/default/production/commutation.o
-                    0x103c                  _oldHalls
-                    0x103e                  _dirsign
+.nbss               0x1044         0x14
+ .nbss              0x1044         0x10 build/default/production/SPIcoms.o
+                    0x1044                  _send_buf
+ .nbss              0x1054          0x4 build/default/production/commutation.o
+                    0x1054                  _oldHalls
+                    0x1056                  _dirsign
 
-.ndata              0x1040          0x4
- .ndata             0x1040          0x4 build/default/production/SPIcoms.o
-                    0x1040                  _head
-                    0x1042                  _tail
+.ndata              0x1058          0x4
+ .ndata             0x1058          0x4 build/default/production/SPIcoms.o
+                    0x1058                  _head
+                    0x105a                  _tail
 
-.text             0x0002f0        0x724
- .text            0x0002f0        0x622 build/default/production/commutation.o
-                  0x0002f0                  _commutationInit
-                  0x00031c                  _hallsInit
-                  0x000364                  _pwmInit
-                  0x0003f6                  _get_current_command
-                  0x000400                  _MAV_filt
-                  0x00047a                  _get_speed_and_direction
-                  0x0005ae                  _block_com
-                  0x0006fe                  _get_velocity
-                  0x000714                  _abs_val
-                  0x00072a                  _safety_check
-                  0x00083e                  _update_duty_cycle_and_direction
-                  0x00087e                  __T2Interrupt
-                  0x0008a8                  _clockInit
-                  0x0008fc                  _main
- .text            0x000912        0x102 build/default/production/SPIcoms.o
-                  0x000912                  _SPI_send
-                  0x000934                  _pop_to_outbox
-                  0x000964                  _SPIinit
-                  0x0009e2                  __SPI2Interrupt
+.text             0x00030e        0x8e0
+ .text            0x00030e        0x7de build/default/production/commutation.o
+                  0x00030e                  _commutationInit
+                  0x00033a                  _hallsInit
+                  0x000382                  _pwmInit
+                  0x000414                  _get_current_command
+                  0x00041e                  _abs_val
+                  0x000434                  _check_bounds
+                  0x000466                  _torque_control
+                  0x0004e2                  _MAV_filt
+                  0x00055c                  _get_speed_and_direction
+                  0x000690                  _PWM_update_command
+                  0x000700                  _check_pwm_input
+                  0x00076e                  _block_com
+                  0x0008be                  _get_velocity
+                  0x0008d4                  _safety_check
+                  0x0009e8                  _update_duty_cycle_and_direction
+                  0x000a28                  _update_torque_command
+                  0x000a56                  __T2Interrupt
+                  0x000a80                  _clockInit
+                  0x000ad4                  _pwm_communications_init
+                  0x000ade                  _main
+ .text            0x000aec        0x102 build/default/production/SPIcoms.o
+                  0x000aec                  _SPI_send
+                  0x000b0e                  _pop_to_outbox
+                  0x000b3e                  _SPIinit
+                  0x000bbc                  __SPI2Interrupt
 
-.dinit            0x000a14         0x3c
- .dinit           0x000a14         0x3c data_init
+.dinit            0x000bee         0x4c
+ .dinit           0x000bee         0x4c data_init

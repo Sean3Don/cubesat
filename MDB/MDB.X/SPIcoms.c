@@ -62,8 +62,8 @@ void SPIinit(void) {
 
 
     PPSUnLock;
-    PPSInput(IN_FN_PPS_SDI2,IN_PIN_PPS_RPI25);
-    PPSInput(RPINR22bits.SCK2INR,IN_PIN_PPS_RPI51);
+    PPSInput(IN_FN_PPS_SDI2, IN_PIN_PPS_RPI25);
+    PPSInput(RPINR22bits.SCK2INR, IN_PIN_PPS_RPI51);
     PPSInput(IN_FN_PPS_SS2, IN_PIN_PPS_RPI52);
     PPSOutput(OUT_FN_PPS_SDO2, OUT_PIN_PPS_RP20);
     PPSLock;
@@ -77,10 +77,10 @@ void SPIinit(void) {
     TRISAbits.TRISA4 = 0; //SDO
 
     //JUST FOR TESTING
-//    PORTAbits.RA9 = 1;
-//    PORTCbits.RC3 = 1;
-//    PORTCbits.RC4 = 1;
-//   PORTAbits.RA4 = 1;
+    //    PORTAbits.RA9 = 1;
+    //    PORTCbits.RC3 = 1;
+    //    PORTCbits.RC4 = 1;
+    //   PORTAbits.RA4 = 1;
 
     //Now that the pins are assigned, we initialize SPI2
 
@@ -149,12 +149,24 @@ void SPIinit(void) {
 
 }
 
+#ifdef TORQUE_COMMAND
+
+void __attribute((__interrupt__, no_auto_psv)) _SPI2Interrupt(void) {
+    int16_t command = SPI2BUF;
+    update_torque_command(command);
+    IFS2bits.SPI2IF = 0; // clear interrupt flag
+}
+
+
+#endif
+
+
+#ifdef PWMCOMMAND
+
 void __attribute((__interrupt__, no_auto_psv)) _SPI2Interrupt(void) {
     int16_t command = SPI2BUF; // read what came in
     //pop_to_outbox();
     update_duty_cycle_and_direction(command);
-
-
 
 
 #ifdef TEST_COMMAND
@@ -165,16 +177,16 @@ void __attribute((__interrupt__, no_auto_psv)) _SPI2Interrupt(void) {
 #endif
 
     //JUST FOR TESTING
-    if (command == -300) {
-    LED1 = 1;
-    }else{
-        LED1=0;
+    if (command == 500) {
+        LED1 = 1;
+    } else {
+        LED1 = 0;
     }
 
     IFS2bits.SPI2IF = 0; // clear interrupt flag
 
 }
-
+#endif
 
 #ifdef SPITEST
 _FOSCSEL(FNOSC_FRC & IESO_OFF & PWMLOCK_OFF);

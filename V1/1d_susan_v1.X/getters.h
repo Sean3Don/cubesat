@@ -64,6 +64,24 @@ float get_AHRS_angle(void);
  *
  */
 
+float get_AHRS_rate(void);
+/* returns yaw rate in rad/s
+
+
+ */
+
+
+void init_battery_voltage_reader(void);
+/*initializes the ADC which reads battery voltage
+
+
+ */
+
+
+float get_battery_voltage(void);
+/* returns a battery voltage in volts
+ */
+
 
 #endif	/* GETTERS_H */
 
