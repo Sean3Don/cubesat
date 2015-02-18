@@ -31,7 +31,7 @@
 #endif
 
 #define BAT_VOLTAGE_LOCKOUT 380
-#define BAT_VOLTAGE_NO_BAT 169
+#define BAT_VOLTAGE_NO_BAT 1500 // change this back when you are connected to a battery
 
 //#define AD_DEBUG_VERBOSE
 #ifdef AD_DEBUG_VERBOSE

@@ -224,9 +224,10 @@ typedef enum {
 } state_type_t;
 
 state_type_t state;
-
+int stable;
 void init_control(void) {
     state = start;
+    stable = 0;
 }
 
 //returns 1 if both have the same sign, otherwiser returns 0
@@ -247,8 +248,10 @@ int Control(struct inputs *in, struct outputs *out, float command) {
 
     float error = compute_error(command, angle);
     float speed = in->AHRS_yaw_rate;
-    printf("speed) %f\n", speed);
-    printf(" error %f \n", error);
+
+
+//    printf("speed) %f\n", speed);
+//    printf(" error %f \n", error);
 
     if (!same_sign(error, speed)) { // if your traveling in such as way as to increase error, be reversing
         if (error > 0) {
@@ -274,7 +277,7 @@ int Control(struct inputs *in, struct outputs *out, float command) {
                 break;
 
             case wait: // wait till you get half way, then start slowing down
-                printf("erratstart %f\n", errAtStart);
+//                printf("erratstart %f\n", errAtStart);
                 if (fabs(error) < (fabs(errAtStart) / 2)) { // if error and speed have different signs it's bad
                     if (errAtStart > 0) {
                         out->motor_command = BANGHIGH;
@@ -295,15 +298,24 @@ int Control(struct inputs *in, struct outputs *out, float command) {
                 break;
         }
     }
-    printf("state %d \n\n", state);
+//    printf("state %d \n\n", state);
 
 
-    //    if (fabs(drv) == 0 && fabs(error) == .05) { // if stabilized
-    //        return 1;
-    //    } else {
-    //        return 0;
-    //    }
-    return 0;
+
+        if (fabs(speed) < .1 && fabs(error) <.03 ) { // if stabilized
+            stable++;
+        } else {
+            stable = 0;
+        }
+    
+    printf("%f , %f , %f , %f , %d \n",angle, command, error, speed, out->motor_command );
+
+    if(stable>10){ //must satisfy the stable condition for 10 iterations until a 1 is returned, indicating that the next waypoint should be sent
+//        printf("stabilized");
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 

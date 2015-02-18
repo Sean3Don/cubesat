@@ -50,13 +50,13 @@ void run(int samp_freq) {
 // and it puts out the next desired point
 
 //currently it just flops between pi and 0
-float currWP = PI/6;
+float currWP = -PI/2;
 float waypoints (int atWP){
     if(atWP){
         if (currWP < .2){
-            currWP = PI/6;
+            currWP = PI/2;
         }else{
-            currWP = 0;
+            currWP = -PI/2;
         }
     }
     return currWP;
